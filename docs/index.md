@@ -26,7 +26,34 @@ To deploy on OpenShift, Kogito offers an operator and CLI to build and deploy ap
 
 ## Code studies
 
-[Kotigo examples are here](), and the getting started is simple and illustrative. The first very interesting one is kakfa - quarkus and kogito example.
+[Kotigo examples are here](https://github.com/kiegroup/kogito-examples), and the getting started is simple and illustrative. 
+
+### Getting started code
+
+The first application is the [process-quarkus-example]() with a copy of the code in this repository. I did some changes to it.
+The top level BPMN process is orders.bpmn2. The Add items subprocess invokes the following orderItems.bpmn2 process, which uses a CalculationService.calculateTotal custom Java service and a user task to verify the order.
+
+It can run with `quarkus:dev` and any change to the models generate and code is available. REST end points are generated for each process start point and decision service defined in the app.
+
+Calling the POST on /orders with a JSON oder doc, creates a process instance, and a unique UUID for the order for future reference.
+
+### Creating my own project
+
+```
+mvn archetype:generate \
+    -DarchetypeGroupId=org.kie.kogito \
+    -DarchetypeArtifactId=kogito-quarkus-archetype \
+    -DgroupId=jbcodeforce -DartifactId=sample-kogito \
+    -DarchetypeVersion=0.14.0 \
+    -Dversion=1.0-SNAPSHOT
+```
+The Quarkus extension and Maven plug-in within a standard Kogito project generate all the required code and boilerplate for your Kogito services. The generated service usually exposes default REST endpoints using the information that is inferred from the business assets that you include in your project. See [detail here](https://docs.jboss.org/kogito/release/latest/html_single/#proc-kogito-creating-project-custom_kogito-creating-running).
+
+### Other samples
+
+The second very interesting sample is for knative
+
+one is kakfa - quarkus and kogito example.
 
 Simple Dockerfile for a quarkus native app:
 
